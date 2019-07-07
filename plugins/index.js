@@ -24,30 +24,25 @@ module.exports = function() {
           .reverse()
           .join("");
       },
+      manipulateOptions(opts, parserOpts) {
+        const { plugins } = parserOpts;
+        // If the Flow syntax plugin already ran, remove it since Typescript
+        // takes priority.
+        removePlugin(plugins, "flow");
+
+        // If the JSX syntax plugin already ran, remove it because JSX handling
+        // in TS depends on the extensions, and is purely dependent on 'isTSX'.
+        removePlugin(plugins, "jsx");
+
+        parserOpts.plugins.push(
+          "typescript",
+          "classProperties",
+          // TODO: This is enabled by default now, remove in Babel 8
+          "objectRestSpread",
+        );
+
+      },
     },
   };
 }
 
-
-
-
-
-
-// manipulateOptions(opts, parserOpts) {
-//   const { plugins } = parserOpts;
-//   // If the Flow syntax plugin already ran, remove it since Typescript
-//   // takes priority.
-//   removePlugin(plugins, "flow");
-
-//   // If the JSX syntax plugin already ran, remove it because JSX handling
-//   // in TS depends on the extensions, and is purely dependent on 'isTSX'.
-//   removePlugin(plugins, "jsx");
-
-//   parserOpts.plugins.push(
-//     "typescript",
-//     "classProperties",
-//     // TODO: This is enabled by default now, remove in Babel 8
-//     "objectRestSpread",
-//   );
-
-// },
