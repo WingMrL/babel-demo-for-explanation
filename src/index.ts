@@ -1,1 +1,1 @@
-const ab: string = 'ab';
+const JavaScript = 'hello world';
